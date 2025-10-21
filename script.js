@@ -141,8 +141,8 @@ function hitTarget() {
       cardVideo.controls = false;
 
       const cardSource = document.createElement('source');
-      cardSource.src = 'card.mp4';
-      cardSource.type = 'video/mp4';
+      cardSource.src = 'gatinho4.gif';
+      cardSource.type = 'video/gif';
       cardVideo.appendChild(cardSource);
 
       const text = document.createElement('h2');
