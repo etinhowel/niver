@@ -1,34 +1,34 @@
+// === ELEMENTOS ===
 const target = document.getElementById('target');
 const gameArea = document.getElementById('game-area');
 const message = document.getElementById('message');
 const retryBtn = document.getElementById('retry');
 const crosshair = document.getElementById('crosshair');
 
-
 let gameOver = false;
 
-// === sons===
+// === SONS ===
 const shotSound = new Audio('shot.mp3');
 const hitSound = new Audio('hit.mp3');
 const missSound = new Audio('erro.mp3');
 
-// === correção bug da mouse ===
+// === CORREÇÃO BUG DA MOUSE ===
 if (crosshair.parentElement !== document.body) {
   document.body.appendChild(crosshair);
 }
 Object.assign(crosshair.style, {
   position: 'fixed',
   pointerEvents: 'none',
-  zIndex: '2147483647', 
+  zIndex: '2147483647',
 });
 
-// === "mira"em cima do mouse ===
+// === MIRA EM CIMA DO MOUSE ===
 document.addEventListener('mousemove', (e) => {
   crosshair.style.left = `${e.clientX}px`;
   crosshair.style.top = `${e.clientY}px`;
 });
 
-// === clique para atirar ===
+// === CLIQUE PARA ATIRAR ===
 gameArea.addEventListener('click', (event) => {
   if (gameOver) return;
 
@@ -54,7 +54,7 @@ gameArea.addEventListener('click', (event) => {
   }
 });
 
-// === acertou o alvo ===
+// === FUNÇÃO QUANDO ACERTA O ALVO ===
 function hitTarget() {
   gameOver = true;
   document.body.classList.add('flash');
@@ -63,6 +63,7 @@ function hitTarget() {
   hitSound.play();
 
   setTimeout(() => {
+    // === OVERLAY DO VÍDEO PRINCIPAL (fim.mp4) ===
     const videoOverlay = document.createElement('div');
     Object.assign(videoOverlay.style, {
       position: 'fixed',
@@ -70,34 +71,21 @@ function hitTarget() {
       left: '0',
       width: '100vw',
       height: '100vh',
-      background: 'rgba(0,0,0,0.85)', // fundo semi-transparente
+      background: 'black',
       zIndex: '9999',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       overflow: 'hidden',
-      padding: '10px', // garante espaçamento em celular
-      boxSizing: 'border-box',
-    });
-
-    // Cria o vídeo centralizado em tamanho de cartão
-    const videoContainer = document.createElement('div');
-    Object.assign(videoContainer.style, {
-      width: '90%',
-      maxWidth: '400px', // máximo em desktop
-      aspectRatio: '16/9', // mantém proporção
-      borderRadius: '16px',
-      overflow: 'hidden',
-      boxShadow: '0 0 30px #00ffff',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
     });
 
     const video = document.createElement('video');
-    video.style.width = '100%';
-    video.style.height = '100%';
-    video.style.objectFit = 'cover';
+    Object.assign(video.style, {
+      maxWidth: '100%',
+      maxHeight: '100%',
+      objectFit: 'contain',
+      display: 'block',
+    });
     video.autoplay = true;
     video.controls = true;
 
@@ -106,14 +94,14 @@ function hitTarget() {
     source.type = 'video/mp4';
     video.appendChild(source);
 
-    videoContainer.appendChild(video);
-    videoOverlay.appendChild(videoContainer);
+    videoOverlay.appendChild(video);
     document.body.appendChild(videoOverlay);
 
+    // Quando o vídeo terminar
     video.addEventListener('ended', () => {
       videoOverlay.remove();
 
-      // Cria o "cartão presente" (mesmo código que você já tinha)
+      // === OVERLAY DO CARTÃO ===
       const cardOverlay = document.createElement('div');
       Object.assign(cardOverlay.style, {
         position: 'fixed',
@@ -128,14 +116,18 @@ function hitTarget() {
         alignItems: 'center',
         gap: '20px',
         zIndex: '10000',
+        padding: '10px',
+        boxSizing: 'border-box',
         color: '#fff',
         textAlign: 'center',
         fontFamily: '"Orbitron", sans-serif'
       });
 
+      // === CARD VIDEO RESPONSIVO ===
       const cardVideo = document.createElement('video');
       Object.assign(cardVideo.style, {
-        width: '180px',
+        width: '90%',
+        maxWidth: '180px',
         height: 'auto',
         borderRadius: '16px',
         boxShadow: '0 0 20px #00ffff',
@@ -145,7 +137,7 @@ function hitTarget() {
       });
       cardVideo.autoplay = true;
       cardVideo.loop = true;
-      cardVideo.muted = true;
+      cardVideo.muted = true; // ESSENCIAL PARA CELULAR
       cardVideo.controls = false;
 
       const cardSource = document.createElement('source');
@@ -170,7 +162,6 @@ function hitTarget() {
       });
       button.onmouseover = () => (button.style.background = '#00ffaa');
       button.onmouseout = () => (button.style.background = '#00ffff');
-
       button.addEventListener('click', () => {
         window.location.href = 'cartao.html';
       });
@@ -181,4 +172,10 @@ function hitTarget() {
       document.body.appendChild(cardOverlay);
     });
   }, 1500);
+}
+
+// === FUNÇÃO QUANDO ERRAR ===
+function missTarget() {
+  missSound.currentTime = 0;
+  missSound.play();
 }
