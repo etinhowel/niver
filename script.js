@@ -1,8 +1,6 @@
 // === ELEMENTOS ===
 const target = document.getElementById('target');
 const gameArea = document.getElementById('game-area');
-const message = document.getElementById('message');
-const retryBtn = document.getElementById('retry');
 const crosshair = document.getElementById('crosshair');
 
 let gameOver = false;
@@ -11,16 +9,6 @@ let gameOver = false;
 const shotSound = new Audio('shot.mp3');
 const hitSound = new Audio('hit.mp3');
 const missSound = new Audio('erro.mp3');
-
-// === CORREÇÃO BUG DA MOUSE ===
-if (crosshair.parentElement !== document.body) {
-  document.body.appendChild(crosshair);
-}
-Object.assign(crosshair.style, {
-  position: 'fixed',
-  pointerEvents: 'none',
-  zIndex: '2147483647',
-});
 
 // === MIRA EM CIMA DO MOUSE ===
 document.addEventListener('mousemove', (e) => {
@@ -97,53 +85,48 @@ function hitTarget() {
     videoOverlay.appendChild(video);
     document.body.appendChild(videoOverlay);
 
-    // Quando o vídeo terminar
     video.addEventListener('ended', () => {
       videoOverlay.remove();
 
-      // === OVERLAY DO CARTÃO ===
+      // === CARD CENTRALIZADO SEM FULLSCREEN ===
       const cardOverlay = document.createElement('div');
       Object.assign(cardOverlay.style, {
         position: 'fixed',
-        top: '0',
-        left: '0',
-        width: '100vw',
-        height: '100vh',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '90%',
+        maxWidth: '400px',
         background: 'linear-gradient(135deg, #000 0%, #111 100%)',
+        padding: '15px',
+        borderRadius: '16px',
+        boxShadow: '0 0 30px #00ffff',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
-        gap: '20px',
+        gap: '15px',
         zIndex: '10000',
-        padding: '10px',
-        boxSizing: 'border-box',
         color: '#fff',
         textAlign: 'center',
         fontFamily: '"Orbitron", sans-serif'
       });
 
-      // === CARD VIDEO RESPONSIVO ===
+      // === VÍDEO PEQUENO DO CARD ===
       const cardVideo = document.createElement('video');
-      Object.assign(cardVideo.style, {
-        width: '90%',
-        maxWidth: '180px',
-        height: 'auto',
-        borderRadius: '16px',
-        boxShadow: '0 0 20px #00ffff',
-        objectFit: 'contain',
-        display: 'block',
-        marginBottom: '10px',
-      });
+      cardVideo.src = 'card.mp4';
       cardVideo.autoplay = true;
       cardVideo.loop = true;
-      cardVideo.muted = true; // ESSENCIAL PARA CELULAR
+      cardVideo.muted = true;
+      cardVideo.playsInline = true;
       cardVideo.controls = false;
+      cardVideo.style.width = '100%';
+      cardVideo.style.maxWidth = '180px';
+      cardVideo.style.height = 'auto';
+      cardVideo.style.borderRadius = '12px';
+      cardOverlay.style.boxShadow = '0 0 9px #fafafaff';
 
-      const cardSource = document.createElement('source');
-      cardSource.src = 'gatinho4.gif';
-      cardSource.type = 'video/gif';
-      cardVideo.appendChild(cardSource);
+      cardVideo.style.objectFit = 'contain';
+      cardVideo.style.display = 'block';
 
       const text = document.createElement('h2');
       text.textContent = 'Você desbloqueou seu cartão misterioso.';
