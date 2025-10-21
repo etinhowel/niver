@@ -1,0 +1,148 @@
+/* ====== CSS CORRIGIDO E MELHORADO ====== */
+
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: radial-gradient(circle at center, #14002b 0%, #050011 80%);
+  height: 100vh;
+  overflow: hidden;
+  font-family: "Orbitron", sans-serif;
+  cursor: none;   
+  user-select: none;
+}
+
+#hud {
+  position: fixed;
+  top: 20px;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+}
+
+#hud h1 {
+  font-size: 2rem;
+  color: #00ffff;
+  text-shadow: 0 0 10px #00ffff;
+}
+
+#hud p {
+  color: #ccc;
+}
+
+#game-area {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* === ALVO === */
+#target {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, red 40%, white 45%, red 60%);
+  border-radius: 50%;
+  animation: moveTarget 17s ease-in-out infinite alternate;
+}
+
+/* movimento suave do alvo */
+@keyframes moveTarget {
+  0%   { top: 20%; left: 30%; }
+  25%  { top: 40%; left: 60%; }
+  50%  { top: 50%; left: 40%; }
+  75%  { top: 60%; left: 70%; }
+  100% { top: 30%; left: 50%; }
+}
+
+/* === MIRA / CURSOR === */
+#crosshair {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 120px;
+  height: 120px;
+  pointer-events: none;           /* NÃO bloqueia cliques */
+  transform: translate(-50%, -50%);
+  transition: transform 0.05s ease;
+  z-index: 2147483647;            /* MUITO alto para ficar sempre por cima */
+  display: block;
+}
+
+/* fallback visual caso a imagem falhe */
+#crosshair::after {
+  content: "";
+  display: block;
+  width: 15px;
+  height: 15px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid #00ff88;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#crosshair.shoot {
+  transform: translate(-50%, -50%) scale(0.95);
+}
+
+/* Mensagem / overlay (quando erra) */
+#message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  z-index: 2000;   /* deve ficar abaixo do #crosshair */
+}
+#message.hidden { display: none; }
+
+#retry {
+  background: #00ff88;
+  border: none;
+  margin-top: 15px;
+  padding: 10px 25px;
+  border-radius: 8px;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 2001;   /* botão clicável acima da overlay (se precisar) */
+}
+
+#retry:hover { background: #00ffaa; }
+
+.falling {
+  animation: fall 1.2s ease-in forwards;
+  pointer-events: none;  /* garante que as peças que caem não bloqueiem o mouse */
+  z-index: 1000;         /* abaixo da overlay e da mira */
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(150vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.flash {
+  animation: flash 0.4s forwards;
+}
+
+@keyframes flash {
+  to { background: black; }
+}

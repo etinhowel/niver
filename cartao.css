@@ -1,0 +1,249 @@
+/* ===== RESET GERAL ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ===== CORPO E FUNDO ===== */
+body {
+  background: linear-gradient(135deg, #1b0034, #3b0066, #ff00ff);
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ===== FUNDO COM GATINHOS ===== */
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cat {
+  position: absolute;
+  width: 80px;
+  animation: jump 5s infinite ease-in-out;
+  opacity: 0.7;
+}
+
+.cat1 { top: 60%; left: 10%; animation-delay: 0s; }
+.cat2 { top: 70%; left: 50%; animation-delay: 1.5s; }
+.cat3 { top: 65%; left: 80%; animation-delay: 3s; }
+
+@keyframes jump {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-80px) rotate(10deg); }
+}
+
+/* ===== CARTÃO PRINCIPAL ===== */
+.card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  padding: 20px;
+  width: 80%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  backdrop-filter: blur(10px);
+  z-index: 2;
+  box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+  animation: slideDown 1.5s ease forwards;
+
+  /* 🔹 Scroll mais suave */
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* ===== EFEITO DESCIDA DO CARTÃO ===== */
+@keyframes slideDown {
+  from { transform: translateY(-100vh); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ===== SCROLLBAR PERSONALIZADO ===== */
+.card::-webkit-scrollbar {
+  width: 8px;
+}
+
+.card::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #ff00ff, #cc00ff);
+  border-radius: 10px;
+}
+
+.card::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #ff55ff, #cc33ff);
+}
+
+/* ===== CONTEÚDO ===== */
+h1 {
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+p {
+  line-height: 1.7em;
+  text-align: justify;
+  font-size: 1em;
+}
+
+/* ===== BOTÃO ===== */
+button {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  font-size: 1.1em;
+  background: #ff00ff;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #ff77ff;
+  transform: scale(1.05);
+}
+
+/* ===== VÍDEO DENTRO DO CARTÃO ===== */
+/* Vídeo pequeno acima do título */
+.card-small-video {
+  width: 150px;          /* tamanho pequeno */
+  border-radius: 12px;   /* cantos arredondados */
+  display: block;
+  margin: 0 auto 15px auto; /* centralizado e com espaço abaixo */
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.3); /* efeito sutil */
+}
+
+
+/* ===== SCROLL COM EFEITO DE INÉRCIA ===== */
+@media (pointer: fine) {
+  .card {
+    scroll-snap-type: y proximity;
+  }
+  .card p {
+    scroll-snap-align: start;
+  }
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+  .cat {
+    width: 60px;
+  }
+
+  .card {
+    width: 90%;
+    max-height: 75vh;
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.6em;
+  }
+
+  p {
+    font-size: 0.95em;
+  }
+
+  button {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 95%;
+    max-height: 70vh;
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.4em;
+  }
+
+  p {
+    font-size: 0.9em;
+  }
+
+  .cat {
+    width: 50px;
+  }
+}
+
+/* ===== FUNDO COM GATINHOS ===== */
+.cat {
+  position: absolute;
+  width: 80px;
+  opacity: 0.7;
+  animation: floatFullScreen 12s linear infinite;
+}
+
+/* ===== DELAYS DIFERENTES PARA CADA GATINHO ===== */
+.cat1 { top: 10%; left: 5%; animation-delay: 0s; }
+.cat2 { top: 50%; left: 40%; animation-delay: 1s; }
+.cat3 { top: 70%; left: 75%; animation-delay: 2s; }
+.cat4 { top: 20%; left: 60%; animation-delay: 3s; }
+.cat5 { top: 30%; left: 20%; animation-delay: 4s; }
+.cat6 { top: 60%; left: 10%; animation-delay: 5s; }
+.cat7 { top: 40%; left: 80%; animation-delay: 6s; }
+.cat8 { top: 15%; left: 35%; animation-delay: 7s; }
+.cat9 { top: 55%; left: 50%; animation-delay: 8s; }
+.cat10 { top: 25%; left: 70%; animation-delay: 9s; }
+.cat11 { top: 65%; left: 30%; animation-delay: 10s; }
+
+/* ===== ANIMAÇÃO ALEATÓRIA POR TODA A TELA ===== */
+@keyframes floatFullScreen {
+  0% {
+    transform: translate(0vw, 0vh) rotate(0deg);
+  }
+  20% {
+    transform: translate(15vw, -10vh) rotate(5deg);
+  }
+  40% {
+    transform: translate(-20vw, 15vh) rotate(-8deg);
+  }
+  60% {
+    transform: translate(25vw, -15vh) rotate(6deg);
+  }
+  80% {
+    transform: translate(-10vw, 20vh) rotate(-4deg);
+  }
+  100% {
+    transform: translate(0vw, 0vh) rotate(0deg);
+  }
+}
+
+/* Botão de som abaixo do vídeo */
+.sound-button {
+  display: block;
+  margin: 10px auto 20px auto; /* centralizado e espaçamento */
+  padding: 8px 14px;
+  font-size: 1em;
+  background: rgba(255, 0, 255, 0.6);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.sound-button:hover {
+  background: rgba(255, 0, 255, 0.9);
+  transform: scale(1.05);
+}
+

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>isteripo</title>
+  <link rel="stylesheet" href="cartao.css" />
+</head>
+<body>
+  <!-- Música de fundo -->
+  <audio id="bg-music" autoplay loop>
+    <source src="miau.mp3" type="audio/mp3" />
+  </audio>
+
+  <!-- Fundo animado com gatinhos -->
+  <div class="background">
+    <img src="gatinho1.gif" class="cat cat1" alt="gatinho pulando" />
+    <img src="gatinho2.gif" class="cat cat2" alt="gatinho pulando" />
+    <img src="gatinho3.jfif" class="cat cat3" alt="gatinho pulando" />
+    <img src="gatinho4.jfif" class="cat cat4" alt="gatinho pulando" />
+    <img src="gatinho5.gif" class="cat cat5" alt="gatinho pulando" />
+    <img src="gatinho6.gif" class="cat cat6" alt="gatinho pulando" />
+    <img src="gatinho7.gif" class="cat cat7" alt="gatinho pulando" />
+    <img src="gatinho8.jpg" class="cat cat8" alt="gatinho pulando" />
+    <img src="gatinho9.jfif" class="cat cat9" alt="gatinho pulando" />
+    <img src="gatinho1.gif" class="cat cat10" alt="gatinho pulando" />
+    <img src="gatinho1.gif" class="cat cat11" alt="gatinho pulando" />
+
+
+
+  </div>
+
+  <!-- Cartão principal -->
+  <div class="card">
+    <video autoplay loop muted playsinline class="card-small-video">
+      <source src="moto.mp4" type="video/mp4" />
+    </video>
+    <button id="toggle-sound" class="sound-button">🔇</button>
+
+
+    <h1>🎉 Parabéns!</h1>
+
+    
+      
+      <br><br>
+      Você é muito especial para mim, eu teamo mil milhoes.
+      
+      <br><br>
+      Obrigado por sempre ser tanto, para mim e para todos ao seu redor!
+      
+      <br><br>
+      Você é a pessoa com o maior coração que eu conheço.Sempre fofa e gentil com todos.
+    
+      <br><br>
+      Você é gigante!!!! tenho muito orgulho de você
+
+      <br><br>
+Estou morrendo de saudades.
+
+
+
+    <button onclick="window.location.href='index.html'">Voltar ao início</button>
+  </div>
+</body>
+
+<script>
+  // Seleciona a música de fundo corretamente
+  const bgMusic = document.getElementById('bg-music');
+  const toggleBtn = document.getElementById('toggle-sound');
+
+  toggleBtn.addEventListener('click', () => {
+    // Alterna o mute do áudio de fundo
+    if (bgMusic.muted) {
+      bgMusic.muted = false;
+      toggleBtn.textContent = '🔊';
+    } else {
+      bgMusic.muted = true;
+      toggleBtn.textContent = '🔇';
+    }
+  });
+
+  // Seleciona todos os gatinhos
+const cats = document.querySelectorAll('.cat');
+
+cats.forEach(cat => {
+  // Define posição inicial aleatória
+  cat.style.left = `${Math.random() * 100}vw`;
+  cat.style.top = `${Math.random() * 100}vh`;
+
+  // Define direção e velocidade aleatória
+  const velocity = {
+    x: (Math.random() - 0.5) * 0.2, // horizontal, px por frame
+    y: (Math.random() - 0.5) * 0.2  // vertical, px por frame
+  };
+
+  function moveCat() {
+    // Pega posição atual
+    let currentX = parseFloat(cat.style.left);
+    let currentY = parseFloat(cat.style.top);
+
+    // Atualiza posição
+    currentX += velocity.x;
+    currentY += velocity.y;
+
+    // Se sair da tela, inverte direção
+    if (currentX < 0 || currentX > 100) velocity.x *= -1;
+    if (currentY < 0 || currentY > 100) velocity.y *= -1;
+
+    cat.style.left = `${currentX}vw`;
+    cat.style.top = `${currentY}vh`;
+
+    // Rotação suave aleatória
+    const rotate = Math.sin(Date.now() / 1000 + Math.random()) * 10;
+    cat.style.transform = `rotate(${rotate}deg)`;
+
+    requestAnimationFrame(moveCat);
+  }
+
+  moveCat();
+});
+
+</script>
+</html>
