@@ -70,22 +70,34 @@ function hitTarget() {
       left: '0',
       width: '100vw',
       height: '100vh',
-      background: 'black',
+      background: 'rgba(0,0,0,0.85)', // fundo semi-transparente
       zIndex: '9999',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       overflow: 'hidden',
+      padding: '10px', // garante espaçamento em celular
+      boxSizing: 'border-box',
     });
 
-    // Cria o vídeo centralizado e responsivo
-    const video = document.createElement('video');
-    Object.assign(video.style, {
-      maxWidth: '100%',
-      maxHeight: '100%',
-      objectFit: 'contain',
-      display: 'block',
+    // Cria o vídeo centralizado em tamanho de cartão
+    const videoContainer = document.createElement('div');
+    Object.assign(videoContainer.style, {
+      width: '90%',
+      maxWidth: '400px', // máximo em desktop
+      aspectRatio: '16/9', // mantém proporção
+      borderRadius: '16px',
+      overflow: 'hidden',
+      boxShadow: '0 0 30px #00ffff',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
     });
+
+    const video = document.createElement('video');
+    video.style.width = '100%';
+    video.style.height = '100%';
+    video.style.objectFit = 'cover';
     video.autoplay = true;
     video.controls = true;
 
@@ -94,12 +106,14 @@ function hitTarget() {
     source.type = 'video/mp4';
     video.appendChild(source);
 
-    // === Quando o vídeo terminar ===
+    videoContainer.appendChild(video);
+    videoOverlay.appendChild(videoContainer);
+    document.body.appendChild(videoOverlay);
+
     video.addEventListener('ended', () => {
-      // Remove o vídeo
       videoOverlay.remove();
 
-      // Cria o "cartão presente"
+      // Cria o "cartão presente" (mesmo código que você já tinha)
       const cardOverlay = document.createElement('div');
       Object.assign(cardOverlay.style, {
         position: 'fixed',
@@ -119,33 +133,29 @@ function hitTarget() {
         fontFamily: '"Orbitron", sans-serif'
       });
 
-// === Cartão em vídeo pequeno ===
-const cardVideo = document.createElement('video');
-Object.assign(cardVideo.style, {
-  width: '180px',            // tamanho reduzido para não atrapalhar o botão
-  height: 'auto',
-  borderRadius: '16px',
-  boxShadow: '0 0 20px #00ffff',
-  objectFit: 'contain',      // mantém proporção original
-  display: 'block',
-  marginBottom: '10px',      // espaçamento entre vídeo e botão/texto
-});
-cardVideo.autoplay = true;
-cardVideo.loop = true;        
-cardVideo.muted = true;       
-cardVideo.controls = false;  
+      const cardVideo = document.createElement('video');
+      Object.assign(cardVideo.style, {
+        width: '180px',
+        height: 'auto',
+        borderRadius: '16px',
+        boxShadow: '0 0 20px #00ffff',
+        objectFit: 'contain',
+        display: 'block',
+        marginBottom: '10px',
+      });
+      cardVideo.autoplay = true;
+      cardVideo.loop = true;
+      cardVideo.muted = true;
+      cardVideo.controls = false;
 
-const cardSource = document.createElement('source');
-cardSource.src = 'card.mp4'; 
-cardSource.type = 'video/mp4';
-cardVideo.appendChild(cardSource);
+      const cardSource = document.createElement('source');
+      cardSource.src = 'card.mp4';
+      cardSource.type = 'video/mp4';
+      cardVideo.appendChild(cardSource);
 
-
-      // Mensagem
       const text = document.createElement('h2');
       text.textContent = 'Você desbloqueou seu cartão misterioso.';
 
-      // Botão para avançar
       const button = document.createElement('button');
       button.textContent = 'Abrir Cartão';
       Object.assign(button.style, {
@@ -161,9 +171,8 @@ cardVideo.appendChild(cardSource);
       button.onmouseover = () => (button.style.background = '#00ffaa');
       button.onmouseout = () => (button.style.background = '#00ffff');
 
-      // Ao clicar, vai para outra página (você cria depois)
       button.addEventListener('click', () => {
-        window.location.href = 'cartao.html'; // troque pelo nome da sua próxima tela
+        window.location.href = 'cartao.html';
       });
 
       cardOverlay.appendChild(cardVideo);
@@ -171,8 +180,5 @@ cardVideo.appendChild(cardSource);
       cardOverlay.appendChild(button);
       document.body.appendChild(cardOverlay);
     });
-
-    videoOverlay.appendChild(video);
-    document.body.appendChild(videoOverlay);
   }, 1500);
 }
